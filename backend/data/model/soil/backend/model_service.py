@@ -1,7 +1,11 @@
+import os
 import re
 import shutil
+import urllib.error
+import urllib.request
 from pathlib import Path
 
+import json
 import joblib
 import pdfplumber
 import pytesseract
@@ -47,6 +51,65 @@ def configure_tesseract(explicit_cmd=None):
             return candidate
 
     return None
+
+
+def extract_text_with_ocr_space(file_path):
+    api_key = os.environ.get("OCR_SPACE_API_KEY", "").strip()
+    endpoint = os.environ.get("OCR_SPACE_ENDPOINT", "https://api.ocr.space/parse/image").strip()
+
+    if not api_key:
+        raise RuntimeError(
+            "Image OCR is unavailable in this deployment. Set OCR_SPACE_API_KEY in Vercel to enable image OCR fallback."
+        )
+
+    boundary = "----AgroVedaOcrBoundary"
+    filename = Path(file_path).name
+    mime_type = Image.open(file_path).get_format_mimetype() or "application/octet-stream"
+    file_bytes = Path(file_path).read_bytes()
+
+    parts = [
+        f"--{boundary}\r\n".encode(),
+        b'Content-Disposition: form-data; name="language"\r\n\r\neng\r\n',
+        f"--{boundary}\r\n".encode(),
+        b'Content-Disposition: form-data; name="isOverlayRequired"\r\n\r\nfalse\r\n',
+        f"--{boundary}\r\n".encode(),
+        f'Content-Disposition: form-data; name="file"; filename="{filename}"\r\n'.encode(),
+        f"Content-Type: {mime_type}\r\n\r\n".encode(),
+        file_bytes,
+        b"\r\n",
+        f"--{boundary}--\r\n".encode(),
+    ]
+    body = b"".join(parts)
+
+    request = urllib.request.Request(
+        endpoint,
+        data=body,
+        headers={
+            "apikey": api_key,
+            "Content-Type": f"multipart/form-data; boundary={boundary}",
+        },
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        details = error.read().decode("utf-8", errors="ignore")
+        raise RuntimeError(f"OCR API request failed: {details or error.reason}") from error
+    except urllib.error.URLError as error:
+        raise RuntimeError(f"OCR API request failed: {error.reason}") from error
+
+    if payload.get("IsErroredOnProcessing"):
+        message = "; ".join(payload.get("ErrorMessage") or []) or "OCR processing failed"
+        raise RuntimeError(message)
+
+    parsed_results = payload.get("ParsedResults") or []
+    text = "\n".join((item.get("ParsedText") or "").strip() for item in parsed_results).strip()
+    if not text:
+        raise RuntimeError("OCR API returned no readable text from the image.")
+
+    return text
 
 
 def extract_values(text):
@@ -111,13 +174,11 @@ def parse_file(file_path, tesseract_cmd=None):
 
     if suffix in [".png", ".jpg", ".jpeg"]:
         configured_tesseract = configure_tesseract(tesseract_cmd)
-        if not configured_tesseract:
-          raise RuntimeError(
-              "Image OCR is unavailable in this deployment because the Tesseract binary is not installed."
-          )
-
-        image = Image.open(file_path)
-        text = pytesseract.image_to_string(image)
+        if configured_tesseract:
+            image = Image.open(file_path)
+            text = pytesseract.image_to_string(image)
+        else:
+            text = extract_text_with_ocr_space(file_path)
     elif suffix == ".pdf":
         with pdfplumber.open(file_path) as pdf:
             for page in pdf.pages:
