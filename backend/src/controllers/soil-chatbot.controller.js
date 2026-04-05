@@ -2,7 +2,7 @@ const soilChatbotService = require('../services/soil-chatbot.service');
 
 const predictFromJson = async (req, res) => {
   try {
-    const result = await soilChatbotService.predictFromJson(req.user?.id, req.body);
+    const result = await soilChatbotService.predictFromJson(req.user?.id, req.body, req);
     res.status(200).json({
       success: true,
       data: {
@@ -23,7 +23,7 @@ const predictFromFile = async (req, res) => {
       return res.status(400).json({ success: false, message: 'File is required' });
     }
 
-    const result = await soilChatbotService.predictFromFile(req.user?.id, req.file);
+    const result = await soilChatbotService.predictFromFile(req.user?.id, req.file, req);
     res.status(200).json({
       success: true,
       data: {

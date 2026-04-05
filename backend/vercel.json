@@ -2,11 +2,19 @@
   "version": 2,
   "builds": [
     {
+      "src": "api/soil_model.py",
+      "use": "@vercel/python"
+    },
+    {
       "src": "api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/internal/soil-model",
+      "dest": "api/soil_model.py"
+    },
     {
       "src": "/(.*)",
       "dest": "api/index.js"

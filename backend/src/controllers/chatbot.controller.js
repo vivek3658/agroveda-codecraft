@@ -62,7 +62,7 @@ const getChatbotPredictions = async (req, res) => {
 
 const predictChatbotFromJson = async (req, res) => {
   try {
-    const result = await soilChatbotService.predictFromJson(req.user.id, req.body);
+    const result = await soilChatbotService.predictFromJson(req.user.id, req.body, req);
     res.status(200).json({
       success: true,
       message: 'Prediction generated successfully',
@@ -79,7 +79,7 @@ const predictChatbotFromFile = async (req, res) => {
       return res.status(400).json({ success: false, message: 'File is required' });
     }
 
-    const result = await soilChatbotService.predictFromFile(req.user.id, req.file);
+    const result = await soilChatbotService.predictFromFile(req.user.id, req.file, req);
     res.status(200).json({
       success: true,
       message: 'File processed successfully',

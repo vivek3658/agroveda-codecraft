@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const ChatSession = require('../models/ChatSession');
 const SoilPrediction = require('../models/SoilPrediction');
 const { runPythonSoilCommand } = require('./python-bridge.service');
@@ -62,8 +61,69 @@ const savePrediction = async ({ userId, sourceType, originalInput, pythonResult,
   return prediction;
 };
 
-const predictFromJson = async (userId, payload) => {
-  const result = await runPythonSoilCommand(['predict-json', JSON.stringify(payload)]);
+const resolveSoilModelUrl = (req) => {
+  const explicitUrl = process.env.SOIL_MODEL_URL;
+  if (explicitUrl) {
+    return explicitUrl;
+  }
+
+  const host = req?.headers?.host;
+  if (!host) {
+    throw new Error('Soil model URL is not configured');
+  }
+
+  const protocol = req.headers['x-forwarded-proto'] || (host.includes('localhost') ? 'http' : 'https');
+  return `${protocol}://${host}/api/internal/soil-model`;
+};
+
+const callVercelSoilModel = async ({ req, mode, payload, file }) => {
+  const url = resolveSoilModelUrl(req);
+  let response;
+
+  if (mode === 'predict-json') {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ mode, payload })
+    });
+  } else {
+    const formData = new FormData();
+    const buffer = await fs.promises.readFile(file.path);
+    const blob = new Blob([buffer], { type: file.mimetype || 'application/octet-stream' });
+
+    formData.append('mode', mode);
+    formData.append('file', blob, file.originalname || 'soil-report');
+
+    response = await fetch(url, {
+      method: 'POST',
+      body: formData
+    });
+  }
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || result.success === false) {
+    throw new Error(result.error || result.message || 'Soil model request failed');
+  }
+
+  return result;
+};
+
+const runSoilModel = async ({ req, mode, payload, file }) => {
+  if (process.env.VERCEL) {
+    return callVercelSoilModel({ req, mode, payload, file });
+  }
+
+  if (mode === 'predict-json') {
+    return runPythonSoilCommand(['predict-json', JSON.stringify(payload)]);
+  }
+
+  return runPythonSoilCommand(['predict-file', file.path]);
+};
+
+const predictFromJson = async (userId, payload, req) => {
+  const result = await runSoilModel({ req, mode: 'predict-json', payload });
   const prediction = await savePrediction({
     userId,
     sourceType: 'json',
@@ -77,8 +137,8 @@ const predictFromJson = async (userId, payload) => {
   };
 };
 
-const predictFromFile = async (userId, file) => {
-  const result = await runPythonSoilCommand(['predict-file', file.path]);
+const predictFromFile = async (userId, file, req) => {
+  const result = await runSoilModel({ req, mode: 'predict-file', file });
   const prediction = await savePrediction({
     userId,
     sourceType: file.mimetype === 'application/pdf' ? 'pdf' : 'image',
