@@ -2,6 +2,14 @@ require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 const mongoUri = process.env.MONGODB_URI;
+const rawAllowedOrigins = process.env.ALLOWED_ORIGINS || [
+  'https://agroveda-codecraft.vercel.app',
+  'http://localhost:5173'
+].join(',');
+const allowedOrigins = rawAllowedOrigins
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 if (isProduction && !mongoUri) {
   console.error('CRITICAL: MONGODB_URI is not set in production environment!');
@@ -25,5 +33,6 @@ module.exports = {
   emailFrom: process.env.EMAIL_FROM || 'AgroVeda <noreply@agroveda.com>',
   dailyFarmerEmailCron: process.env.CRON_TIME_DAILY_FARMER_EMAIL || '0 7 * * *',
   cronTimezone: process.env.CRON_TIMEZONE || 'Asia/Kolkata',
-  tesseractCmd: process.env.TESSERACT_CMD || ''
+  tesseractCmd: process.env.TESSERACT_CMD || '',
+  allowedOrigins
 };
