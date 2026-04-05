@@ -102,9 +102,21 @@ const callVercelSoilModel = async ({ req, mode, payload, file }) => {
     });
   }
 
-  const result = await response.json().catch(() => ({}));
+  const rawResponse = await response.text();
+  let result = {};
+
+  try {
+    result = rawResponse ? JSON.parse(rawResponse) : {};
+  } catch (error) {
+    result = {};
+  }
+
   if (!response.ok || result.success === false) {
-    throw new Error(result.error || result.message || 'Soil model request failed');
+    const fallbackMessage = rawResponse
+      ? `Soil model request failed (${response.status}): ${rawResponse.slice(0, 300)}`
+      : `Soil model request failed (${response.status})`;
+
+    throw new Error(result.error || result.message || fallbackMessage);
   }
 
   return result;

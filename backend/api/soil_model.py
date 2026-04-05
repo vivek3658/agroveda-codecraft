@@ -10,11 +10,13 @@ app = Flask(__name__)
 
 
 @app.route("/")
+@app.route("/api/internal/soil-model")
 def health():
     return jsonify({"success": True, "message": "Soil model function is running"})
 
 
 @app.route("/", methods=["POST"])
+@app.route("/api/internal/soil-model", methods=["POST"])
 def predict():
     mode = request.form.get("mode")
 
