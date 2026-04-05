@@ -267,7 +267,7 @@ const Auth = () => {
             onSuccess={onGoogleSuccess}
             onError={() => {
               setErrorMessage(
-                "Google login blocked. Ensure 'http://localhost:5173' is added to Authorized JavaScript origins."
+                "Google login blocked. Add your frontend domain to Google Authorized JavaScript origins."
               );
             }}
             useOneTap
