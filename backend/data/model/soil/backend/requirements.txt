@@ -1,0 +1,5 @@
+joblib
+pdfplumber
+pillow
+pytesseract
+scikit-learn

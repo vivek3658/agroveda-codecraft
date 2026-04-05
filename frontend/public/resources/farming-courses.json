@@ -1,0 +1,102 @@
+{
+  "featured": [
+    {
+      "id": "yt-soil-basics",
+      "title": "Soil Health and Preparation Basics",
+      "provider": "YouTube Learning Path",
+      "type": "video",
+      "level": "Beginner",
+      "duration": "30-60 mins",
+      "topic": "Soil Management",
+      "description": "Start with soil testing, land preparation, composting, and nutrient balance before sowing.",
+      "url": "https://www.youtube.com/results?search_query=soil+health+for+farmers+beginner",
+      "source": "YouTube Search"
+    },
+    {
+      "id": "yt-drip-irrigation",
+      "title": "Drip Irrigation and Water Saving Farming",
+      "provider": "YouTube Learning Path",
+      "type": "video",
+      "level": "Intermediate",
+      "duration": "45-90 mins",
+      "topic": "Irrigation",
+      "description": "Learn efficient irrigation planning, drip setup, maintenance, and water-saving practices.",
+      "url": "https://www.youtube.com/results?search_query=drip+irrigation+farming+tutorial",
+      "source": "YouTube Search"
+    },
+    {
+      "id": "yt-organic-farming",
+      "title": "Organic Farming Practical Guide",
+      "provider": "YouTube Learning Path",
+      "type": "video",
+      "level": "Beginner",
+      "duration": "1-2 hours",
+      "topic": "Organic Farming",
+      "description": "Explore composting, natural pest control, crop rotation, and certification basics.",
+      "url": "https://www.youtube.com/results?search_query=organic+farming+practical+guide",
+      "source": "YouTube Search"
+    },
+    {
+      "id": "yt-market-linkage",
+      "title": "How Farmers Can Sell Better in Markets",
+      "provider": "YouTube Learning Path",
+      "type": "video",
+      "level": "Intermediate",
+      "duration": "30-45 mins",
+      "topic": "Farm Business",
+      "description": "Covers pricing, packaging, quality consistency, and direct-to-customer selling strategies.",
+      "url": "https://www.youtube.com/results?search_query=farm+marketing+for+farmers+india",
+      "source": "YouTube Search"
+    }
+  ],
+  "playlists": [
+    {
+      "id": "pl-crop-cycle",
+      "title": "Crop Planning by Season",
+      "description": "A watchlist for understanding crop selection, sowing windows, and seasonal planning.",
+      "url": "https://www.youtube.com/results?search_query=crop+planning+by+season+playlist"
+    },
+    {
+      "id": "pl-pest-control",
+      "title": "Pest and Disease Management",
+      "description": "Focused learning around early disease detection, prevention, and treatment methods.",
+      "url": "https://www.youtube.com/results?search_query=pest+and+disease+management+farming+playlist"
+    },
+    {
+      "id": "pl-farm-machinery",
+      "title": "Small Farm Machinery Tutorials",
+      "description": "Useful videos on tractors, tillers, seed drills, sprayers, and maintenance basics.",
+      "url": "https://www.youtube.com/results?search_query=small+farm+machinery+tutorial+playlist"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res-krishi",
+      "title": "Krishi Vigyan Kendra Network",
+      "kind": "Extension Support",
+      "description": "Field-level agricultural training, demonstrations, and advisory support for farmers in India.",
+      "url": "https://kvk.icar.gov.in/"
+    },
+    {
+      "id": "res-icar",
+      "title": "ICAR",
+      "kind": "Research",
+      "description": "Agricultural research, crop guidance, publications, and institutional resources.",
+      "url": "https://icar.org.in/"
+    },
+    {
+      "id": "res-pmkisan",
+      "title": "PM-KISAN",
+      "kind": "Government Scheme",
+      "description": "Government support portal with farmer-facing updates and assistance information.",
+      "url": "https://pmkisan.gov.in/"
+    },
+    {
+      "id": "res-enam",
+      "title": "eNAM",
+      "kind": "Market Resource",
+      "description": "National agriculture market platform for understanding pricing and mandi connectivity.",
+      "url": "https://www.enam.gov.in/"
+    }
+  ]
+}

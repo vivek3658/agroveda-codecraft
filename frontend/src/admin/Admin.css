@@ -1,0 +1,62 @@
+.admin-login-panel {
+  max-width: 520px;
+  margin: 24px auto 0;
+}
+
+.admin-form,
+.admin-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.admin-product-list {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-product-card {
+  padding: 16px;
+  border-radius: 18px;
+  background: #f5f8f2;
+  border: 1px solid rgba(47, 109, 58, 0.08);
+}
+
+.admin-product-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.admin-product-head strong {
+  display: block;
+  color: var(--green-900);
+}
+
+.admin-product-head span {
+  color: var(--muted);
+}
+
+.admin-muted {
+  color: var(--muted);
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+}

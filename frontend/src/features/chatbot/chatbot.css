@@ -1,0 +1,235 @@
+.chatbot-page {
+  padding-bottom: 72px;
+}
+
+.chatbot-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1.3fr) 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+.chatbot-left,
+.chatbot-main,
+.chatbot-right {
+  display: grid;
+  gap: 20px;
+}
+
+.chatbot-panel {
+  padding: 22px;
+}
+
+.chatbot-tab-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chatbot-tab {
+  border: 1px solid rgba(47, 109, 58, 0.12);
+  background: #f4faf1;
+  color: var(--green-800);
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-weight: 700;
+}
+
+.chatbot-tab-active {
+  color: white;
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+}
+
+.chatbot-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field-error {
+  color: var(--danger);
+  font-style: normal;
+  font-size: 0.9rem;
+}
+
+.chatbot-dropzone {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px dashed rgba(47, 109, 58, 0.22);
+  background: linear-gradient(180deg, #f7fbf5, #ffffff);
+  text-align: center;
+}
+
+.chatbot-dropzone input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.chatbot-file-preview {
+  overflow: hidden;
+  margin-top: 16px;
+  border-radius: 20px;
+}
+
+.chatbot-file-preview img {
+  width: 100%;
+  display: block;
+}
+
+.chatbot-highlight-card {
+  padding: 20px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(47, 109, 58, 0.12), rgba(196, 151, 47, 0.12));
+  margin-bottom: 18px;
+}
+
+.chatbot-highlight-card strong {
+  display: block;
+  margin: 10px 0 8px;
+  font-size: 1.6rem;
+  color: var(--green-900);
+}
+
+.chatbot-highlight-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.chatbot-extracted-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.chatbot-stat-card,
+.chatbot-recommendation-card,
+.chatbot-history-card,
+.chatbot-session-item {
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(47, 109, 58, 0.08);
+  background: #f8fcf6;
+}
+
+.chatbot-stat-card span,
+.chatbot-recommendation-card span,
+.chatbot-history-card p {
+  color: var(--muted);
+}
+
+.chatbot-stat-card strong,
+.chatbot-recommendation-card strong,
+.chatbot-history-card h3,
+.chatbot-session-item strong {
+  display: block;
+  color: var(--green-900);
+}
+
+.chatbot-recommendation-list,
+.chatbot-history-list,
+.chatbot-session-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.chatbot-empty {
+  display: grid;
+  gap: 14px;
+}
+
+.chatbot-empty p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.chatbot-message-list {
+  display: grid;
+  gap: 14px;
+  max-height: 420px;
+  overflow-y: auto;
+  margin-bottom: 18px;
+}
+
+.chatbot-message-bubble {
+  padding: 16px 18px;
+  border-radius: 22px;
+}
+
+.chatbot-message-bubble header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.chatbot-message-bubble p {
+  margin: 0;
+}
+
+.chatbot-message-bubble-user {
+  background: rgba(92, 168, 108, 0.12);
+}
+
+.chatbot-message-bubble-assistant {
+  background: #f8fcf6;
+}
+
+.chatbot-composer {
+  display: grid;
+  gap: 14px;
+}
+
+.chatbot-history-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 14px;
+}
+
+.chatbot-history-meta span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(92, 168, 108, 0.1);
+  color: var(--green-800);
+  font-size: 0.86rem;
+}
+
+.chatbot-session-item {
+  text-align: left;
+}
+
+.chatbot-session-item span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+.chatbot-session-item.active {
+  border-color: rgba(47, 109, 58, 0.22);
+  background: rgba(92, 168, 108, 0.12);
+}
+
+.chatbot-inline-loading {
+  padding: 24px;
+}
+
+@media (max-width: 1200px) {
+  .chatbot-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .chatbot-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chatbot-message-bubble header {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Soil Crop Predictor</title>
+    <link rel="icon" href="data:,">
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #f4f9f4;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .box {
+            width: 48%;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        input {
+            width: 95%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        .note {
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>🌱 Smart Soil Crop Predictor</h2>
+
+<div class="container">
+
+    <!-- ========================= -->
+    <!-- MANUAL INPUT -->
+    <!-- ========================= -->
+    <div class="box">
+        <h3>Enter Soil Details</h3>
+
+        <input id="N" placeholder="Nitrogen">
+        <input id="P" placeholder="Phosphorus">
+        <input id="K" placeholder="Potassium">
+        <input id="temperature" placeholder="Temperature (°C)">
+        <input id="humidity" placeholder="Humidity (%)">
+        <input id="rainfall" placeholder="Rainfall (mm)">
+        <input id="ph" placeholder="pH">
+
+        <button onclick="predict()">Predict Crop</button>
+
+        <p class="note">
+            👉 Fill all details for better prediction
+        </p>
+    </div>
+
+    <!-- ========================= -->
+    <!-- FILE UPLOAD -->
+    <!-- ========================= -->
+    <div class="box">
+        <h3>Upload Soil Report</h3>
+
+        <input type="file" id="fileInput" accept=".pdf,image/*">
+
+        <button onclick="uploadFile()">Upload & Predict</button>
+
+        <p class="note">
+            👉 Upload PDF/Image if you have soil report  
+            👉 System will auto-extract values  
+        </p>
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- RESULT -->
+<!-- ========================= -->
+<div id="result">
+    🌾 Result will appear here...
+</div>
+<!-- ADD THIS BUTTON HERE -->
+<button id="aiBtn" style="display:none; margin-top:15px; padding:12px; background:#4f46e5; color:white; border:none; border-radius:8px; cursor:pointer; font-size:16px; width:100%;" onclick="openChatbot()">
+    🤖 Ask AI for More Info
+</button>
+<div class="demo-box">
+
+  <h3>📄 Your files should be in this format</h3>
+
+  <div class="demo-buttons">
+    <button onclick="openDemo('image')" class="demo-btn image-btn">
+      📸 Demo Image
+    </button>
+
+    <button onclick="openDemo('pdf')" class="demo-btn pdf-btn">
+      📄 Demo PDF
+    </button>
+  </div>
+
+</div>
+<script src="app.js"></script>
+
+</body>
+</html>
+

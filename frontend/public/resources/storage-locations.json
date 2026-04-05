@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "title": "AgroVeda Storage Directory",
+    "description": "Curated starter directory of crop storage and cold storage facilities for farmer discovery.",
+    "note": "This is a curated manual directory because a reliable nationwide open API with facility-level contacts was not available."
+  },
+  "locations": [
+    {
+      "id": "str-nashik-cold-01",
+      "name": "Nashik Fresh Cold Storage",
+      "type": "Cold Storage",
+      "city": "Nashik",
+      "state": "Maharashtra",
+      "address": "MIDC Ambad Area, Nashik, Maharashtra",
+      "supportedCrops": ["Grapes", "Onion", "Tomato", "Pomegranate"],
+      "capacity": "4500 MT",
+      "temperature": "2°C to 8°C",
+      "phone": "+91 98765 21001",
+      "email": "bookings@nashikfreshcold.in",
+      "description": "Suitable for fruits, vegetables, and short-term pre-market cold chain needs."
+    },
+    {
+      "id": "str-pune-warehouse-01",
+      "name": "Pune Agri Warehouse Hub",
+      "type": "Dry Warehouse",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "address": "Chakan Logistics Belt, Pune, Maharashtra",
+      "supportedCrops": ["Wheat", "Maize", "Soybean", "Pulses"],
+      "capacity": "8000 MT",
+      "temperature": "Ambient",
+      "phone": "+91 98765 21002",
+      "email": "support@puneagrihub.in",
+      "description": "General warehousing for grains and pulses with loading support and dispatch scheduling."
+    },
+    {
+      "id": "str-indore-cold-01",
+      "name": "Indore Harvest Cold Chain",
+      "type": "Cold Storage",
+      "city": "Indore",
+      "state": "Madhya Pradesh",
+      "address": "Dewas Naka Industrial Zone, Indore, Madhya Pradesh",
+      "supportedCrops": ["Potato", "Onion", "Tomato", "Chilli"],
+      "capacity": "5200 MT",
+      "temperature": "0°C to 10°C",
+      "phone": "+91 98765 21003",
+      "email": "contact@indoreharvestcold.in",
+      "description": "Cold-chain facility focused on horticulture produce and mandi-linked dispatch."
+    },
+    {
+      "id": "str-ludhiana-warehouse-01",
+      "name": "Ludhiana Grain Storage Center",
+      "type": "Dry Warehouse",
+      "city": "Ludhiana",
+      "state": "Punjab",
+      "address": "Near Samrala Chowk, Ludhiana, Punjab",
+      "supportedCrops": ["Wheat", "Rice", "Mustard"],
+      "capacity": "12000 MT",
+      "temperature": "Ambient",
+      "phone": "+91 98765 21004",
+      "email": "ops@ludhianagrainstorage.in",
+      "description": "High-volume storage for cereals and oilseeds with grading and bagging support."
+    },
+    {
+      "id": "str-jaipur-cold-01",
+      "name": "Jaipur Produce Cold Store",
+      "type": "Cold Storage",
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "address": "Sikar Road Agri Belt, Jaipur, Rajasthan",
+      "supportedCrops": ["Citrus", "Leafy Vegetables", "Milk Products"],
+      "capacity": "3000 MT",
+      "temperature": "1°C to 6°C",
+      "phone": "+91 98765 21005",
+      "email": "hello@jaipurproducecold.in",
+      "description": "Focused on perishables with sorting and dispatch coordination."
+    },
+    {
+      "id": "str-bengaluru-warehouse-01",
+      "name": "Bengaluru Farm Logistics Storage",
+      "type": "Integrated Storage",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "address": "Hoskote Agro Logistics Cluster, Bengaluru, Karnataka",
+      "supportedCrops": ["Tomato", "Beans", "Millets", "Flowers"],
+      "capacity": "6000 MT",
+      "temperature": "Mixed Zones",
+      "phone": "+91 98765 21006",
+      "email": "sales@farmlogisticsblr.in",
+      "description": "Mixed storage zones for fresh produce and dry commodities with local market access."
+    },
+    {
+      "id": "str-hyderabad-cold-01",
+      "name": "Hyderabad Green Preserve",
+      "type": "Cold Storage",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "address": "Patancheru Farm Cluster, Hyderabad, Telangana",
+      "supportedCrops": ["Mango", "Tomato", "Chilli", "Dairy"],
+      "capacity": "4700 MT",
+      "temperature": "2°C to 12°C",
+      "phone": "+91 98765 21007",
+      "email": "info@greenpreservehyd.in",
+      "description": "Storage and dispatch support for fruits, vegetables, and short-term dairy handling."
+    },
+    {
+      "id": "str-kolkata-warehouse-01",
+      "name": "Kolkata Agri Storage Point",
+      "type": "Dry Warehouse",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "address": "Dankuni Freight Corridor, Kolkata, West Bengal",
+      "supportedCrops": ["Rice", "Jute", "Potato", "Pulses"],
+      "capacity": "9500 MT",
+      "temperature": "Ambient",
+      "phone": "+91 98765 21008",
+      "email": "storage@kolkataagripoint.in",
+      "description": "Regional storage hub for eastern India with bulk commodity movement support."
+    }
+  ]
+}

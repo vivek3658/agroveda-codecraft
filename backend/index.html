@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Auth Tester</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; line-height: 1.6; background: #f4f4f9; }
+        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        .output { background: #333; color: #fff; padding: 15px; border-radius: 4px; white-space: pre-wrap; margin-top: 10px; font-family: monospace; }
+        .error { color: #d9534f; font-weight: bold; }
+        .success { color: #5cb85c; font-weight: bold; }
+        .config { background: #e9ecef; padding: 10px; border-radius: 4px; margin-bottom: 20px; border-left: 5px solid #007bff; }
+    </style>
+</head>
+<body>
+
+    <h1>Auth Testing Dashboard</h1>
+
+    <div class="config">
+        <strong>Configuration:</strong><br>
+        Backend URL: <input type="text" id="backendUrl" value="https://agro-veda-backend-bu37.vercel.app" style="width: 250px; display: inline-block;">
+        <br>Google Client ID: <input type="text" id="googleClientId" placeholder="Paste your Google Client ID here" style="width: 350px; display: inline-block; margin-top: 5px;">
+    </div>
+
+    <!-- Registration Form -->
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="regName" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="regEmail" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="regPass" placeholder="••••••••" required>
+            </div>
+            <div class="form-group">
+                <label>Re-enter Password</label>
+                <input type="password" id="regPass2" placeholder="••••••••" required>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select id="regRole">
+                    <option value="user">User (Consumer)</option>
+                    <option value="farmer">Farmer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Captcha (Type anything for dummy check)</label>
+                <input type="text" id="regCaptcha" placeholder="xyz123" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <div id="regOutput" class="output" style="display: none;"></div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPass" placeholder="••••••••" required>
+            </div>
+            <div class="form-group">
+                <label>Captcha</label>
+                <input type="text" id="loginCaptcha" placeholder="xyz123" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="loginOutput" class="output" style="display: none;"></div>
+    </div>
+
+    <!-- Google Login -->
+    <div class="container">
+        <h2>Google Login</h2>
+        <p>Select role before signing in with Google:</p>
+        <select id="googleRole" style="margin-bottom: 10px;">
+            <option value="user">User (Consumer)</option>
+            <option value="farmer">Farmer</option>
+        </select>
+        <div id="g_id_onload"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin" data-type="standard"></div>
+        <div id="googleOutput" class="output" style="display: none;"></div>
+    </div>
+
+    <!-- Protected Info -->
+    <div class="container">
+        <h2>Fetch My Info</h2>
+        <button id="fetchMeBtn">Get My Profile (using JWT)</button>
+        <div id="meOutput" class="output" style="display: none;"></div>
+    </div>
+
+    <script>
+        const getUrl = () => document.getElementById('backendUrl').value.replace(/\/$/, "");
+
+        // Helper to show output
+        function showOutput(id, data, isError = false) {
+            const el = document.getElementById(id);
+            el.style.display = 'block';
+            el.innerHTML = JSON.stringify(data, null, 2);
+            el.className = isError ? 'output error' : 'output success';
+        }
+
+        // --- Register ---
+        document.getElementById('registerForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPass').value,
+                reEnterPassword: document.getElementById('regPass2').value,
+                role: document.getElementById('regRole').value,
+                captcha: document.getElementById('regCaptcha').value
+            };
+            try {
+                const res = await fetch(`${getUrl()}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                showOutput('regOutput', data, !res.ok);
+            } catch (err) {
+                showOutput('regOutput', { error: err.message }, true);
+            }
+        };
+
+        // --- Login ---
+        document.getElementById('loginForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const payload = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPass').value,
+                captcha: document.getElementById('loginCaptcha').value
+            };
+            try {
+                const res = await fetch(`${getUrl()}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok && data.token) localStorage.setItem('token', data.token);
+                showOutput('loginOutput', data, !res.ok);
+            } catch (err) {
+                showOutput('loginOutput', { error: err.message }, true);
+            }
+        };
+
+        // --- Fetch Profile ---
+        document.getElementById('fetchMeBtn').onclick = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) return alert('No token found! Please login first.');
+            try {
+                const res = await fetch(`${getUrl()}/api/auth/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                showOutput('meOutput', data, !res.ok);
+            } catch (err) {
+                showOutput('meOutput', { error: err.message }, true);
+            }
+        };
+
+        // --- Google Login Callback ---
+        async function handleCredentialResponse(response) {
+            const payload = {
+                idToken: response.credential,
+                role: document.getElementById('googleRole').value
+            };
+            try {
+                const res = await fetch(`${getUrl()}/api/auth/google`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok && data.token) localStorage.setItem('token', data.token);
+                showOutput('googleOutput', data, !res.ok);
+            } catch (err) {
+                showOutput('googleOutput', { error: err.message }, true);
+            }
+        }
+
+        // Sync Google Client ID
+        document.getElementById('googleClientId').oninput = (e) => {
+            const val = e.target.value;
+            const meta = document.getElementById('g_id_onload');
+            if (meta) meta.setAttribute('data-client_id', val);
+            // Re-initialize google identity if needed (simplified)
+            google.accounts.id.initialize({
+                client_id: val,
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.querySelector(".g_id_signin"),
+                { theme: "outline", size: "large" }
+            );
+        };
+    </script>
+</body>
+</html>
